@@ -1,0 +1,260 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    background-color: #321B44;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.intro-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #321B44;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.intro-screen img {
+    max-width: 60vw;
+    max-height: 60vh;
+    opacity: 0;
+}
+
+.fade-out {
+    animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.final-screen {
+    position: fixed;
+    top: 100vh;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1E0F2D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2000;
+    transition: top 0.6s ease-in-out;
+}
+
+.final-screen.show {
+    top: 0;
+}
+
+.final-screen h1 {
+    font-family: "Dazzle Unicase", sans-serif;
+    font-size: 80px;
+    margin: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.final-screen button {
+    margin-top: 40px;
+    font-size: 36px;
+    padding: 10px 30px;
+    background: #FF5C7F;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    font-family: "Dazzle Unicase", sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 50%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 3vw;
+    padding: 40px;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 0.5s;
+}
+
+.container.show .box {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.95);
+    animation: boxAppear 0.5s ease forwards;
+}
+
+.container.show .box:nth-child(1) { animation-delay: 0.4s; }
+.container.show .box:nth-child(2) { animation-delay: 0.6s; }
+.container.show .box:nth-child(3) { animation-delay: 0.8s; }
+.container.show .box-buttons { animation-delay: 1s; }
+.container.show .box-buttons .box:nth-child(1) { animation-delay: 1.2s; }
+.container.show .box-buttons .box:nth-child(2) { animation-delay: 1.3s; }
+/* y así sucesivamente si hay más */
+
+@keyframes boxAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.box {
+    background: #444;
+    padding: 60px 60px;
+    border-radius: 60px;
+    transition: transform 0.3s ease, background 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+
+.box.animate {
+    transform: scale(1.05);
+    background: #e164d0;
+}
+
+.box-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    height: 100%;
+    gap: 3vw;
+}
+
+.generate {
+    background-color: #FF5C7F;
+    border-radius: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: boxAppear 0.5s ease forwards;
+}
+
+.stop {
+    background-color: #1E0F2D;
+    border-radius: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: boxAppear 0.5s ease forwards;
+}
+
+button {
+    color: white;
+    border-radius: 60px;
+    padding: 10px;
+    cursor: pointer;
+    font-family: "Dazzle Unicase", sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+}
+
+h2 {
+    font-family: "Dazzle Unicase", sans-serif;
+    font-size: 36px;
+    font-feature-settings: "liga" off, "calt" off;
+    margin: 0px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+#title , #concept{
+    font-family: "Dazzle Unicase", sans-serif;
+    font-size: 54px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+    font-feature-settings: "liga" off, "calt" off;
+    margin: 0px;
+}
+
+#timer {
+    font-family: "Dazzle Unicase", sans-serif;
+    font-size: 120px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+    font-feature-settings: "liga" off, "calt" off;
+    margin: 0px;
+}
+
+.color1 {
+    background-color: #CE8FFF;
+}
+
+.color2 {
+    background: #FC90D1;
+}
+
+.color3 {
+    background: #62D3ED;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+    }
+}
+
+.fade-in {
+    opacity: 1;
+    animation: fadeIn 1s ease forwards;
+}
+
+.fade-out {
+    opacity: 0;
+    animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}

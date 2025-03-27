@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PosterJam</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/fonts.css">
+</head>
+<body>
+    <!-- Intro -->
+    <div id="intro" class="intro-screen">
+        <img id="introImg" src="/assets/images/logotdktuesdays.svg" alt="Intro Logo" />
+    </div>
+
+    <!-- Generador principal -->
+    <div class="container hidden" id="generator">
+        <div class="box color1" id="titleBox">
+            <h2>Un poster de</h2>
+            <p id="title">---</p>
+        </div>
+        <div class="box color2" id="conceptBox">
+            <h2>TDK TWIST</h2>
+            <p id="concept">---</p>
+        </div>
+        <div class="box color3">
+            <h2>TIEMPO RESTANTE</h2>
+            <p id="timer">10:00</p>
+        </div>
+        <div class="box-buttons">
+            <div class="generate box">
+                <button onclick="generatePrompt()">GENERAR</button>
+            </div>
+            <div class="stop box">
+                <button onclick="resetGenerator()">DETENER</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla final -->
+    <div id="finalScreen" class="final-screen hidden">
+        <div class="final-content">
+            <h1>Ya fue</h1>
+            <button onclick="restartGenerator()">Dale de nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        const titles = [
+            "Star Wars", "The Matrix", "Stranger Things", "Breaking Bad", 
+            "Ramona Flowers", "Finn the human", "Sailor Moon", "Snape",
+            "Marty Mc Fly y el Doc", "Tu perrito o tu michi", "Tu persona favorita",
+            "Michael Scott", "Juan Carlos Bodoque", "The Beatles", "David Bowie",
+            "Pokémon", "Kill Bill", "Friends", "Jurassic Park",
+            "Mad Max", "Spider-Man", "Batman", "Super Mario",
+            "Rick and Morty", "Ghostbusters", "Toy Story", "Bob Sponja",
+            "One Piece", "El Padrino", "Tiburón"
+        ];
+
+        const concepts = [
+            "Comiendo tacos al pastor", "Atorado en el tráfico", "Bailando cumbia",
+            "En la fila de las tortillas", "En las luchas", "Echando una chela",
+            "Con suéter de abuelita", "En la feria del pueblo", "Haciendo piñatas", "Con chanclas voladoras", "Comprando en el tianguis", "Escapando de un perro", "En unos quince años",
+            "Viendo Netflix", "En el Metro lleno", "Disfrazado de alebrije",
+            "Vendiendo elotes", "Comiendo pan de muerto", "Montado en trajinera", "Con máscara del Santo",
+            "Cantando en karaoke", "En el Zócalo", "Con mariachis", "De vacaciones en Acapulco", "Haciendo memes"
+        ];
+
+        function restartAnimation(el, animationClass) {
+            el.classList.remove("fade-in", "fade-out"); // Limpia todo
+            void el.offsetWidth; // Fuerza reflow (hack para reiniciar la animación)
+            el.classList.add(animationClass); // Agrega la nueva clase
+        }
+
+        window.onload = () => {
+            const intro = document.getElementById("intro");
+            const introImg = document.getElementById("introImg");
+            const generator = document.getElementById("generator");
+
+            function restartAnimation(el, animationClass) {
+                el.classList.remove("fade-in", "fade-out");
+                void el.offsetWidth; // Reflow mágico
+                el.classList.add(animationClass);
+            }
+
+            // Paso 1: Mostrar primer logo con fadeIn
+            restartAnimation(introImg, "fade-in");
+
+            // Paso 2: Esperar 2s, luego fadeOut
+            setTimeout(() => {
+                restartAnimation(introImg, "fade-out");
+
+                // Esperar 1s (duración del fadeOut)
+                setTimeout(() => {
+                    introImg.src = "/assets/images/posterjam.svg";
+
+                    // Esperar un pelín para que cargue el nuevo src
+                    setTimeout(() => {
+                        // Paso 3: fadeIn del segundo logo
+                        restartAnimation(introImg, "fade-in");
+
+                        // Paso 4: Mostrar durante 3s, luego fadeOut
+                        setTimeout(() => {
+                            restartAnimation(introImg, "fade-out");
+
+                            // Paso 5: Ocultar intro, mostrar generador
+                            setTimeout(() => {
+                                intro.classList.add("hidden");
+                                generator.classList.remove("hidden");
+                                generator.classList.add("show");
+                            }, 1000);
+                        }, 3000);
+                    }, 100); // Espera mínima tras cambio de src
+                }, 1000);
+            }, 2000);
+        };
+
+        function generatePrompt() {
+            const titleBox = document.getElementById("titleBox");
+            const conceptBox = document.getElementById("conceptBox");
+
+            document.getElementById("title").innerText = titles[Math.floor(Math.random() * titles.length)];
+            document.getElementById("concept").innerText = concepts[Math.floor(Math.random() * concepts.length)];
+
+            titleBox.classList.add("animate");
+            conceptBox.classList.add("animate");
+
+            setTimeout(() => {
+                titleBox.classList.remove("animate");
+                conceptBox.classList.remove("animate");
+            }, 300);
+
+            startTimer();
+        }
+
+        function startTimer() {
+            let time = 10 * 60;
+            const timerElement = document.getElementById("timer");
+            clearInterval(window.timerInterval);
+            window.timerInterval = setInterval(() => {
+                let minutes = Math.floor(time / 60);
+                let seconds = time % 60;
+                timerElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                time--;
+                if (time < 0) {
+                    clearInterval(window.timerInterval);
+                    showFinalScreen();
+                }
+            }, 1000);
+        }
+
+        function resetGenerator() {
+            clearInterval(window.timerInterval);
+            document.getElementById("title").innerText = "---";
+            document.getElementById("concept").innerText = "---";
+            document.getElementById("timer").innerText = "10:00";
+        }
+
+        function showFinalScreen() {
+            const final = document.getElementById("finalScreen");
+            final.classList.remove("hidden");
+            setTimeout(() => {
+                final.classList.add("show");
+            }, 50);
+        }
+
+        function restartGenerator() {
+            resetGenerator();
+            const final = document.getElementById("finalScreen");
+            final.classList.remove("show");
+            setTimeout(() => {
+                final.classList.add("hidden");
+            }, 500);
+        }
+    </script>
+</body>
+</html>
