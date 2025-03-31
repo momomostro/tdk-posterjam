@@ -200,7 +200,7 @@ h2 {
 
 #title , #concept{
     font-family: "Dazzle Unicase", sans-serif;
-    font-size: 54px;
+    font-size: 56px;
     text-transform: uppercase;
     font-weight: bold;
     font-style: normal;
@@ -257,4 +257,9 @@ h2 {
 @keyframes fadeOut {
     from { opacity: 1; }
     to   { opacity: 0; }
+}
+
+.intro-screen #introAnimation {
+    max-width: 60vw;
+    max-height: 100vh;
 }
